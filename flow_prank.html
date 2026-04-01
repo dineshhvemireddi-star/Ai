@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI School Scanner</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #050e05; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Courier New', monospace; padding: 1rem; }
+
+  #screen { width: 100%; max-width: 420px; display: flex; flex-direction: column; align-items: center; }
+
+  .header { color: #00e676; font-size: 13px; text-align: center; margin-bottom: 1rem; letter-spacing: 1px; opacity: 0.7; }
+
+  .terminal { background: #0d1a0d; border: 1px solid #1a3a1a; border-radius: 14px; width: 100%; padding: 1.5rem 1.2rem 1.8rem; color: #00e676; font-size: 13px; line-height: 2; position: relative; box-shadow: 0 0 40px rgba(0,230,118,0.08); }
+
+  .titlebar { display: flex; align-items: center; gap: 7px; margin-bottom: 1.2rem; padding-bottom: 0.8rem; border-bottom: 1px solid #1a3a1a; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .d1{background:#ff5f57;} .d2{background:#ffbd2e;} .d3{background:#28ca42;}
+  .tbtitle { flex: 1; text-align: center; font-size: 11px; color: #2a6a2a; letter-spacing: 1px; }
+
+  .bar-wrap { margin: 4px 0 8px; }
+  .bar-label { font-size: 11px; color: #2a8a2a; margin-bottom: 3px; }
+  .bar-bg { background: #0a1f0a; border-radius: 3px; height: 12px; overflow: hidden; border: 1px solid #1a3a1a; }
+  .bar-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, #00c853, #00e676); width: 0%; transition: width 0.02s linear; }
+
+  .line { margin: 2px 0; }
+  .hl { color: #64ffda; }
+  .dim { color: #1a6a1a; }
+  .blink { animation: bl 0.7s steps(1) infinite; }
+  @keyframes bl { 50%{opacity:0} }
+
+  /* REVEAL */
+  #reveal { display: none; width: 100%; max-width: 420px; text-align: center; animation: fadeIn 0.6s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+  .fool-emoji { font-size: 72px; margin-bottom: 0.5rem; }
+  .fool-title { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 0.3rem; }
+  .fool-sub { font-size: 14px; color: #888; margin-bottom: 1.5rem; line-height: 1.6; }
+
+  .promo { background: #0d1a0d; border: 1px solid #1a4a1a; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.2rem; text-align: left; }
+  .badge { display: inline-block; background: #00c853; color: #002a10; font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 20px; letter-spacing: 1px; margin-bottom: 0.8rem; }
+  .promo-title { font-size: 17px; font-weight: 700; color: #00e676; margin-bottom: 0.5rem; }
+  .promo-desc { font-size: 13px; color: #558855; line-height: 1.7; }
+
+  .cta { display: block; width: 100%; margin-top: 1rem; padding: 14px; border-radius: 40px; background: #00c853; color: #002a10; font-size: 15px; font-weight: 700; cursor: pointer; border: none; letter-spacing: 0.5px; }
+  .cta:active { background: #00a843; }
+
+  .again { display: block; width: 100%; margin-top: 0.8rem; padding: 12px; border-radius: 40px; background: transparent; color: #2a6a2a; font-size: 13px; cursor: pointer; border: 1px solid #1a4a1a; }
+  .again:active { background: #0d1a0d; }
+</style>
+</head>
+<body>
+
+<div id="screen">
+  <div class="header">FLOW TECH SYSTEMS v2.4</div>
+  <div class="terminal">
+    <div class="titlebar">
+      <div class="dot d1"></div><div class="dot d2"></div><div class="dot d3"></div>
+      <span class="tbtitle">AI-SCHOOL-SCANNER.exe</span>
+    </div>
+    <div id="log"></div>
+  </div>
+</div>
+
+<div id="reveal">
+  <div class="fool-emoji">😂</div>
+  <div class="fool-title">April Fool! Got you!</div>
+  <div class="fool-sub">No scanner exists...<br>but real AI skills? That's your future!</div>
+  <div class="promo">
+    <div class="badge">COMING SOON</div>
+    <div class="promo-title">FLOW Bus & Summer Tech Camp</div>
+    <div class="promo-desc">AI, Robots, and Tech will shape your future. Learn to BUILD them — not just use them. Join FLOW sessions and get a head start on tomorrow.</div>
+    <button class="cta" onclick="alert('Ask your teacher or message us FLOW on WhatsApp! 🚀')">Message us "FLOW" 🚀</button>
+  </div>
+  <button class="again" onclick="restart()">Prank another friend 😈</button>
+</div>
+
+<script>
+const steps = [
+  { text: "🤖 AI School Scanner activated...", t: 0 },
+  { text: "📡 Connecting to school database...", t: 1000 },
+  { text: "🔍 Locating student profile...", t: 2000 },
+  { text: "🧠 Running intelligence scan...", t: 2900, bar: "IQ Analysis", to: 38 },
+  { text: "📚 Checking academic records...", t: 5600, bar: "Academic Records", to: 71 },
+  { text: "🎯 Calculating future potential...", t: 8400, bar: "Potential Score", to: 100 },
+  { text: "✅ Scan complete.", t: 11200 },
+  { text: '<span class="hl">► RESULT: EXCEPTIONAL STUDENT FOUND</span>', t: 12000 },
+  { text: '<span class="dim">━━━━━━━━━━━━━━━━━━━━━━━━</span>', t: 12600 },
+];
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+async function animBar(label, to, logEl){
+  const wrap = document.createElement('div');
+  wrap.className = 'bar-wrap';
+  const lbl = document.createElement('div');
+  lbl.className = 'bar-label';
+  lbl.textContent = label + ' — 0%';
+  const bg = document.createElement('div');
+  bg.className = 'bar-bg';
+  const fill = document.createElement('div');
+  fill.className = 'bar-fill';
+  bg.appendChild(fill);
+  wrap.appendChild(lbl);
+  wrap.appendChild(bg);
+  logEl.appendChild(wrap);
+  let p = 0;
+  while(p < to){
+    p = Math.min(p+1, to);
+    fill.style.width = p+'%';
+    lbl.textContent = label + ' — ' + p + '%';
+    await sleep(20);
+  }
+}
+
+async function run(){
+  const logEl = document.getElementById('log');
+  for(let i=0;i<steps.length;i++){
+    const s = steps[i];
+    const wait = i===0 ? 400 : s.t - steps[i-1].t;
+    await sleep(wait);
+    if(s.bar){
+      await animBar(s.bar, s.to, logEl);
+    } else {
+      const d = document.createElement('div');
+      d.className = 'line';
+      d.innerHTML = s.text;
+      logEl.appendChild(d);
+    }
+  }
+  await sleep(800);
+  const cur = document.createElement('span');
+  cur.className = 'blink'; cur.textContent = '_';
+  logEl.appendChild(cur);
+  await sleep(1600);
+  document.getElementById('screen').style.display = 'none';
+  document.getElementById('reveal').style.display = 'block';
+}
+
+function restart(){
+  document.getElementById('log').innerHTML = '';
+  document.getElementById('reveal').style.display = 'none';
+  document.getElementById('screen').style.display = 'flex';
+  run();
+}
+
+run();
+</script>
+</body>
+</html>
